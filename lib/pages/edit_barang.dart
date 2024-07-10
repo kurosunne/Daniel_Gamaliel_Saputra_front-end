@@ -80,10 +80,12 @@ class _EditBarangPageState extends State<EditBarangPage> {
                       height: 8,
                     ),
                     CustomTextfield(
-                        title: "Nama Barang",
-                        controller: _namaBarangController,
-                        keyboardType: TextInputType.text,
-                        buttonPressed: _buttonPressed),
+                      title: "Nama Barang",
+                      controller: _namaBarangController,
+                      keyboardType: TextInputType.text,
+                      buttonPressed: _buttonPressed,
+                      onChanged: (value) {},
+                    ),
                     const SizedBox(
                       height: 12,
                     ),
@@ -119,7 +121,8 @@ class _EditBarangPageState extends State<EditBarangPage> {
                         title: "Stok",
                         controller: _stokBarangController,
                         keyboardType: TextInputType.number,
-                        buttonPressed: _buttonPressed),
+                        buttonPressed: _buttonPressed,
+                        onChanged: (value) {}),
                     const SizedBox(
                       height: 12,
                     ),
@@ -127,7 +130,8 @@ class _EditBarangPageState extends State<EditBarangPage> {
                         title: "Harga",
                         controller: _hargaBarangController,
                         keyboardType: TextInputType.number,
-                        buttonPressed: _buttonPressed),
+                        buttonPressed: _buttonPressed,
+                        onChanged: (value) {}),
                     const SizedBox(
                       height: 64,
                     ),

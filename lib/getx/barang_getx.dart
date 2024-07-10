@@ -44,4 +44,9 @@ class BarangGetx extends GetxController {
     this.barang[temp] = barang;
     update();
   }
+
+  num get totalHarga =>
+      barang.fold(0, (previousValue, element) => previousValue + element.harga);
+  num get totalStok =>
+      barang.fold(0, (previousValue, element) => previousValue + element.stok);
 }

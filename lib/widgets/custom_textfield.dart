@@ -6,12 +6,14 @@ class CustomTextfield extends StatefulWidget {
   final TextEditingController controller;
   final TextInputType keyboardType;
   final bool buttonPressed;
+  final Function onChanged;
   const CustomTextfield(
       {super.key,
       required this.title,
       required this.controller,
       required this.keyboardType,
-      required this.buttonPressed});
+      required this.buttonPressed,
+      required this.onChanged});
 
   @override
   State<CustomTextfield> createState() => _CustomTextfieldState();
@@ -35,6 +37,9 @@ class _CustomTextfieldState extends State<CustomTextfield> {
             keyboardType: widget.keyboardType,
             decoration: InputDecoration(
                 hintText: "Masukkan ${widget.title.toLowerCase()}"),
+            onChanged: (value) {
+              widget.onChanged(value);
+            },
           ),
         ),
         const SizedBox(

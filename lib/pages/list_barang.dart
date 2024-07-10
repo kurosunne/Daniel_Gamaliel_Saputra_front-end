@@ -25,6 +25,9 @@ class _ListBarangPageState extends State<ListBarangPage> {
   List<bool> _isCheck = [];
   bool _isCheckedAll = false;
 
+  num _totalHarga = 0;
+  num _totalStock = 0;
+
   @override
   void initState() {
     super.initState();
@@ -98,7 +101,7 @@ class _ListBarangPageState extends State<ListBarangPage> {
                             builder: (kategori) {
                               return SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height - 260,
+                                    MediaQuery.of(context).size.height - 290,
                                 child: ListView.builder(
                                   itemCount: barang.barang.length,
                                   shrinkWrap: true,
@@ -177,6 +180,20 @@ class _ListBarangPageState extends State<ListBarangPage> {
                               Text("Tarik untuk memuat data lainya"),
                             ],
                           ),
+                          const SizedBox(height: 8),
+                          GetBuilder<BarangGetx>(
+                              init: BarangGetx(),
+                              builder: (barang) {
+                                return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Stock Total: ${barang.totalStok}"),
+                                    Text(
+                                        "Harga Total: ${barang.totalHarga.formatIDR(2)}"),
+                                  ],
+                                );
+                              }),
                         ],
                       );
                     }),

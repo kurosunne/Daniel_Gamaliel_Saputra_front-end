@@ -4,6 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:tes_coding/classes/Barang.dart';
 import 'package:tes_coding/databases/barang_db.dart';
 import 'package:tes_coding/databases/database_service.dart';
+import 'package:tes_coding/extension/num_extension.dart';
 import 'package:tes_coding/getx/barang_getx.dart';
 import 'package:tes_coding/getx/kategori.getx.dart';
 import 'package:tes_coding/widgets/custom_dropdown.dart';
@@ -28,6 +29,7 @@ class _AddBarangPageState extends State<AddBarangPage> {
   final TextEditingController _hargaBarangController = TextEditingController();
 
   int _selectedKategori = -1;
+  num _hargaBarang = 0;
 
   final List<DropdownMenuEntry> _kelompokList = const [
     DropdownMenuEntry(value: "Mie", label: "Mie"),
@@ -72,10 +74,12 @@ class _AddBarangPageState extends State<AddBarangPage> {
                       height: 8,
                     ),
                     CustomTextfield(
-                        title: "Nama Barang",
-                        controller: _namaBarangController,
-                        keyboardType: TextInputType.text,
-                        buttonPressed: _buttonPressed),
+                      title: "Nama Barang",
+                      controller: _namaBarangController,
+                      keyboardType: TextInputType.text,
+                      buttonPressed: _buttonPressed,
+                      onChanged: (value) {},
+                    ),
                     const SizedBox(
                       height: 12,
                     ),
@@ -108,18 +112,33 @@ class _AddBarangPageState extends State<AddBarangPage> {
                       height: 12,
                     ),
                     CustomTextfield(
-                        title: "Stok",
-                        controller: _stokBarangController,
-                        keyboardType: TextInputType.number,
-                        buttonPressed: _buttonPressed),
+                      title: "Stok",
+                      controller: _stokBarangController,
+                      keyboardType: TextInputType.number,
+                      buttonPressed: _buttonPressed,
+                      onChanged: (value) {},
+                    ),
                     const SizedBox(
                       height: 12,
                     ),
                     CustomTextfield(
-                        title: "Harga",
-                        controller: _hargaBarangController,
-                        keyboardType: TextInputType.number,
-                        buttonPressed: _buttonPressed),
+                      title: "Harga",
+                      controller: _hargaBarangController,
+                      keyboardType: TextInputType.number,
+                      buttonPressed: _buttonPressed,
+                      onChanged: (value) {
+                        String temp = value;
+                        if (temp.contains("Rp")) {
+                          temp = temp.substring(3);
+                        }
+
+                        _hargaBarang =
+                            num.parse(temp.replaceAll(RegExp('[^0-9]'), ''));
+
+                        _hargaBarangController.text =
+                            (_hargaBarang).formatIDR(0);
+                      },
+                    ),
                     const SizedBox(
                       height: 64,
                     ),
@@ -145,7 +164,7 @@ class _AddBarangPageState extends State<AddBarangPage> {
                                 _kategoriBarangController.text.isEmpty ||
                                 _kelompokBarangController.text.isEmpty ||
                                 _stokBarangController.text.isEmpty ||
-                                _hargaBarangController.text.isEmpty) {
+                                _hargaBarang <= 0) {
                               return;
                             }
 
@@ -155,7 +174,7 @@ class _AddBarangPageState extends State<AddBarangPage> {
                               kategoriId: _selectedKategori,
                               stok: int.parse(_stokBarangController.text),
                               kelompokBarang: _kelompokBarangController.text,
-                              harga: double.parse(_hargaBarangController.text),
+                              harga: _hargaBarang,
                             );
 
                             Barang temp = await BarangDB().fetchLatest(db);

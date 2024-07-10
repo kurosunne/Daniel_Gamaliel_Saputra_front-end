@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:tes_coding/classes/Kategori.dart';
 import 'package:tes_coding/databases/database_service.dart';
 import 'package:tes_coding/extension/num_extension.dart';
 import 'package:tes_coding/getx/barang_getx.dart';
@@ -91,10 +92,24 @@ class _SearchListBarangPageState extends State<SearchListBarangPage> {
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
                                       if (_searchController.text.isNotEmpty) {
+                                        Kategori temp = kategori.kategori
+                                            .where((element) =>
+                                                element.id ==
+                                                barang.barang[index].kategoriId)
+                                            .first;
+
                                         if (!barang.barang[index].namaBarang
-                                            .toLowerCase()
-                                            .contains(_searchController.text
-                                                .toLowerCase())) {
+                                                .toLowerCase()
+                                                .contains(_searchController.text
+                                                    .toLowerCase()) &&
+                                            !barang.barang[index].kelompokBarang
+                                                .toLowerCase()
+                                                .contains(_searchController.text
+                                                    .toLowerCase()) &&
+                                            !temp.namaKategori
+                                                .toLowerCase()
+                                                .contains(_searchController.text
+                                                    .toLowerCase())) {
                                           return const SizedBox();
                                         }
                                       }
